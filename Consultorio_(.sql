@@ -37,3 +37,41 @@ CREATE TABLE Consultas(
     CONSTRAINT FK_Expediente_Consulta FOREIGN KEY (ID_Expediente) REFERENCES Expedientes(ID_E),
     CONSTRAINT FK_Empleado_Consulta FOREIGN KEY (ID_Empleado) REFERENCES Empleados(ID)
 );
+
+
+CREATE TABLE Devoluciones (
+    ID_Devolucion INT IDENTITY(1,1) PRIMARY KEY,
+    Tipo_Devolucion VARCHAR(20) NOT NULL CHECK (Tipo_Devolucion IN ('Proveedor', 'Cliente', 'Stock')),
+    Fecha_Devolucion DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
+    Hora_Devolucion TIME NOT NULL DEFAULT CAST(GETDATE() AS TIME),
+    Estado VARCHAR(20) NOT NULL DEFAULT 'Pendiente' CHECK (Estado IN ('Pendiente', 'Procesada', 'Cancelada')),
+    Motivo VARCHAR(200) NOT NULL,
+    Cantidad_Total INT NOT NULL,
+    -- Relaciones según el tipo de devolución
+    ID_Proveedor INT NULL,
+    ID_Cliente INT NULL,
+    ID_Venta INT NULL,
+    ID_Empleado INT NOT NULL,
+    -- Auditoría
+    Fecha_Registro DATETIME NOT NULL DEFAULT GETDATE(),
+    Usuario_Registro VARCHAR(128) NOT NULL DEFAULT SUSER_SNAME(),
+    
+    -- Constraints de integridad según el tipo
+    CONSTRAINT CHK_Tipo_Devolucion CHECK (
+        (Tipo_Devolucion = 'Proveedor' AND ID_Proveedor IS NOT NULL AND ID_Cliente IS NULL) OR
+        (Tipo_Devolucion = 'Cliente' AND ID_Cliente IS NOT NULL AND ID_Venta IS NOT NULL AND ID_Proveedor IS NULL) OR
+        (Tipo_Devolucion = 'Stock' AND ID_Proveedor IS NULL AND ID_Cliente IS NULL)
+    )
+);
+
+CREATE TABLE Detalle_Devolucion (
+    ID_Detalle_Devolucion INT IDENTITY(1,1) PRIMARY KEY,
+    ID_Devolucion INT NOT NULL,
+    ID_Medicamento INT NOT NULL,
+    Lote VARCHAR(50) NULL,
+    Cantidad INT NOT NULL CHECK (Cantidad > 0),
+    Precio_Unitario DECIMAL(10,2) NOT NULL,
+    Subtotal DECIMAL(10,2) NOT NULL,
+    Motivo_Especifico VARCHAR(200) NULL,
+    Accion_Tomar VARCHAR(20) NOT NULL CHECK (Accion_Tomar IN ('ReingresarStock', 'Destruir', 'DevolverProveedor')),
+);

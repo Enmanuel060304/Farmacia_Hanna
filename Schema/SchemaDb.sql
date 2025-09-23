@@ -30,6 +30,8 @@ CREATE TABLE Medicamentos (
     Fecha_Ingreso DATE DEFAULT GETDATE(),
     Fecha_Vencimiento DATE NOT NULL,
     Fecha_Devolucion DATE,
+    Presentacion VARCHAR(50) NOT NULL,
+    Lote VARCHAR(50) NOT NULL,
     ID_Proveedor UNIQUEIDENTIFIER,
     ID_Categoria UNIQUEIDENTIFIER,
     ID_Laboratorios UNIQUEIDENTIFIER,
