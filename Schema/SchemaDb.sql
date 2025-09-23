@@ -26,6 +26,7 @@ CREATE TABLE Medicamentos (
     Descripcion VARCHAR(50) NOT NULL,
     Precio_Compra DECIMAL(2,2) NOT NULL,
     Precio_Venta DECIMAL(2,2) NOT NULL,
+    precio_promocion DECIMAL(2,2),
     Stock INTEGER NOT NULL,
     Fecha_Ingreso DATE DEFAULT GETDATE(),
     Fecha_Vencimiento DATE NOT NULL,
