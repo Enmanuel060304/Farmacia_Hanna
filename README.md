@@ -125,23 +125,3 @@ VALUES (@DevProvID, @MedID, 5, 20.00, 'Cajas golpeadas');
 UPDATE Medicamentos SET Stock = Stock - 5 WHERE ID = @MedID;
 ```
 
-## Posibles Extensiones Futuras
-- Triggers para actualizar stock automáticamente.
-- Tabla de auditoría (histórico de precios y movimientos de inventario).
-- Gestión de lotes más granular (tabla Lotes con trazabilidad de cada ingreso).
-- Estados avanzados de devoluciones (APROBADA_PARCIAL, EN_REVISION).
-- Reportes (ventas por período, rotación, próximos a vencer, devoluciones por motivo).
-- Control de usuarios y roles (seguridad y permisos de operación).
-
-## Estructura del Repositorio
-```
-Schema/SchemaDb.sql  - Script principal de creación
-diagramas/           - Diagramas (si se agregan)
-querys/              - Consultas auxiliares o ejemplos
-```
-
-## Licencia
-Ver archivo `LICENSE` si se define una licencia específica.
-
----
-Si necesitas un DER (diagrama entidad-relación) o generación de procedimientos almacenados (ej. registrar venta + actualización de stock) puedo ayudarte a generarlos. Solo pídelo.
